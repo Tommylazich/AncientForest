@@ -1,0 +1,25 @@
+modLoader="javafml"
+loaderVersion="${loader_version_range}"
+
+license="${mod_license}"
+
+[[mods]]
+modId="ancientforests"
+version="1.0.0"
+displayName="Ancient Forests"
+
+authors="halocovenet7"
+
+description='''${mod_description}'''
+[[dependencies.ancientforests]]
+    modId="forge"
+    mandatory=true
+    versionRange="${forge_version_range}"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.ancientforests]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="${minecraft_version_range}"
+    ordering="NONE"
+    side="BOTH"
