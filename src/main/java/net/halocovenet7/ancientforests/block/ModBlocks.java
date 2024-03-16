@@ -2,6 +2,8 @@ package net.halocovenet7.ancientforests.block;
 
 import net.halocovenet7.ancientforests.AncientForests;
 import net.halocovenet7.ancientforests.block.custom.BranchBlock;
+import net.halocovenet7.ancientforests.block.custom.ModWoodTypes;
+import net.halocovenet7.ancientforests.block.custom.SpottedBlock;
 import net.halocovenet7.ancientforests.items.ModItems;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
@@ -20,6 +22,7 @@ import net.minecraftforge.registries.RegistryObject;
 
 import java.util.function.Supplier;
 
+import static net.minecraft.world.item.Items.GRASS;
 import static net.minecraft.world.item.Items.registerBlock;
 
 public class ModBlocks {
@@ -27,11 +30,13 @@ public class ModBlocks {
             DeferredRegister.create(ForgeRegistries.BLOCKS, AncientForests.MODID);
 
     public static final RegistryObject<Block> OAK_BRANCH = registerBlock("oak_branch",
-            () -> new BranchBlock(BlockBehaviour.Properties.copy(Blocks.MANGROVE_ROOTS).sound(SoundType.GRASS)));
+            () -> new BranchBlock(BlockBehaviour.Properties.copy(Blocks.MANGROVE_ROOTS).sound(SoundType.GRASS).ignitedByLava()));
 
     public static final RegistryObject<Block> LEAF_LITTER = registerBlock("leaf_litter",
             () -> new PinkPetalsBlock(BlockBehaviour.Properties.copy(Blocks.PINK_PETALS).sound(SoundType.GRASS).noCollission().pushReaction(PushReaction.DESTROY)));
 
+    public static final RegistryObject<Block> SPOTTED_GRASS = registerBlock("spotted_grass",
+            () -> new PinkPetalsBlock(BlockBehaviour.Properties.copy(Blocks.PINK_PETALS).sound(SoundType.GRASS).noCollission().pushReaction(PushReaction.DESTROY)));
 
 
     @OnlyIn(Dist.CLIENT)
@@ -42,11 +47,15 @@ public class ModBlocks {
 
         ItemBlockRenderTypes.setRenderLayer(LEAF_LITTER.get(), cutoutRenderType);
         ItemBlockRenderTypes.setRenderLayer(OAK_BRANCH.get(), cutoutRenderType);
-
-
+        ItemBlockRenderTypes.setRenderLayer(SPOTTED_GRASS.get(), cutoutRenderType);
 
     }
+    @OnlyIn(Dist.CLIENT)
+    public static void registerWoodTypes()
+    {
+        Sheets.addWoodType(ModWoodTypes.OAK_BRANCH);
 
+    }
 
 
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block) {

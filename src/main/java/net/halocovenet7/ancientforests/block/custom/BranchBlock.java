@@ -6,6 +6,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.ParticleUtils;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -26,8 +27,10 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 import java.awt.*;
 import java.util.OptionalInt;
+import java.util.Random;
 
-public class BranchBlock extends Block implements SimpleWaterloggedBlock, net.minecraftforge.common.IForgeShearable {
+
+public class BranchBlock extends Block {
     public static final int DECAY_DISTANCE = 7;
     public static final IntegerProperty DISTANCE = BlockStateProperties.DISTANCE;
     public static final BooleanProperty PERSISTENT = BlockStateProperties.PERSISTENT;
@@ -39,6 +42,9 @@ public class BranchBlock extends Block implements SimpleWaterloggedBlock, net.mi
         this.registerDefaultState(this.stateDefinition.any().setValue(DISTANCE, Integer.valueOf(7)).setValue(PERSISTENT, Boolean.valueOf(false)).setValue(WATERLOGGED, Boolean.valueOf(false)));
     }
 
+
+
+
     public VoxelShape getBlockSupportShape(BlockState p_54456_, BlockGetter p_54457_, BlockPos p_54458_) {
         return Shapes.empty();
     }
@@ -46,14 +52,30 @@ public class BranchBlock extends Block implements SimpleWaterloggedBlock, net.mi
     public boolean isRandomlyTicking(BlockState p_54449_) {
         return p_54449_.getValue(DISTANCE) == 7 && !p_54449_.getValue(PERSISTENT);
     }
+        @Override
+        public void randomTick(BlockState blockState, ServerLevel serverLevel, BlockPos blockPos, RandomSource randomSource) {
+            if (this.decaying(blockState)) {
+                dropResources(blockState, serverLevel, blockPos);
+                serverLevel.removeBlock(blockPos, false);
+            }
+            for (Direction direction : Direction.values()) {
+                BlockPos neighborPos = blockPos.offset(direction.getNormal());
+                BlockState neighborState = serverLevel.getBlockState(neighborPos);
+                if (neighborState.getBlock() instanceof LeavesBlock) {
+                    return;
+                } else if (neighborState.getBlock() instanceof BranchBlock) {
+                    return;
 
+                }
+            }
+/*    @Override
     public void randomTick(BlockState p_221379_, ServerLevel p_221380_, BlockPos p_221381_, RandomSource p_221382_) {
         if (this.decaying(p_221379_)) {
             dropResources(p_221379_, p_221380_, p_221381_);
             p_221380_.removeBlock(p_221381_, false);
         }
 
-    }
+*/    }
 
     protected boolean decaying(BlockState p_221386_) {
         return !p_221386_.getValue(PERSISTENT) && p_221386_.getValue(DISTANCE) == 7;
@@ -100,9 +122,11 @@ public class BranchBlock extends Block implements SimpleWaterloggedBlock, net.mi
     }
 
     public static OptionalInt getOptionalDistanceAt(BlockState p_277868_) {
-        if (p_277868_.is(BlockTags.LOGS)) {
-            return OptionalInt.of(0);
-        } else {
+        if (p_277868_.is(BlockTags.OAK_LOGS)) {
+            return OptionalInt.of(1);
+        } else
+
+        {
             return p_277868_.hasProperty(DISTANCE) ? OptionalInt.of(p_277868_.getValue(DISTANCE)) : OptionalInt.empty();
         }
     }
@@ -132,7 +156,6 @@ public class BranchBlock extends Block implements SimpleWaterloggedBlock, net.mi
         BlockState blockstate = this.defaultBlockState().setValue(PERSISTENT, Boolean.valueOf(true)).setValue(WATERLOGGED, Boolean.valueOf(fluidstate.getType() == Fluids.WATER));
         return updateDistance(blockstate, p_54424_.getLevel(), p_54424_.getClickedPos());
     }
-    private boolean isBranch(BlockState state) {
-        return state.is(ModTags.Blocks.IS_BRANCH);
-    }
+
+
 }

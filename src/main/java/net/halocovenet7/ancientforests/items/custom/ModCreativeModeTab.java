@@ -20,6 +20,7 @@ public class ModCreativeModeTab {
                     .title(Component.translatable("creativetab.mod_tab"))
                     .displayItems((pParameters, pOutput) -> {
                         pOutput.accept(ModBlocks.OAK_BRANCH.get());
+                        pOutput.accept(ModBlocks.SPOTTED_GRASS.get());
                         pOutput.accept(ModBlocks.LEAF_LITTER.get());
 
                     })
