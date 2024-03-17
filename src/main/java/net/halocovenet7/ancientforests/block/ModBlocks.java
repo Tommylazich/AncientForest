@@ -2,12 +2,9 @@ package net.halocovenet7.ancientforests.block;
 
 import net.halocovenet7.ancientforests.AncientForests;
 import net.halocovenet7.ancientforests.block.custom.BranchBlock;
-import net.halocovenet7.ancientforests.block.custom.ModWoodTypes;
-import net.halocovenet7.ancientforests.block.custom.SpottedBlock;
 import net.halocovenet7.ancientforests.items.ModItems;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.Sheets;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.*;
@@ -22,7 +19,6 @@ import net.minecraftforge.registries.RegistryObject;
 
 import java.util.function.Supplier;
 
-import static net.minecraft.world.item.Items.GRASS;
 import static net.minecraft.world.item.Items.registerBlock;
 
 public class ModBlocks {
@@ -50,12 +46,7 @@ public class ModBlocks {
         ItemBlockRenderTypes.setRenderLayer(SPOTTED_GRASS.get(), cutoutRenderType);
 
     }
-    @OnlyIn(Dist.CLIENT)
-    public static void registerWoodTypes()
-    {
-        Sheets.addWoodType(ModWoodTypes.OAK_BRANCH);
 
-    }
 
 
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block) {

@@ -42,8 +42,33 @@ public class BranchBlock extends Block {
         this.registerDefaultState(this.stateDefinition.any().setValue(DISTANCE, Integer.valueOf(7)).setValue(PERSISTENT, Boolean.valueOf(false)).setValue(WATERLOGGED, Boolean.valueOf(false)));
     }
 
+  /*  @Override
+    public void scheduledTick(BlockState state, ServerLevel serverLevel, BlockPos pos, Random random) {
+        // Check if the block is at the world's edge, if so, return
+        if (serverLevel.isClientSide || pos.getY() >= serverLevel.getHeight() - 1) {
+            return;
+        }
 
+        // Check neighboring blocks
+        for (Direction direction : Direction.values()) {
+            BlockPos neighborPos = pos.offset(direction.getNormal());
+            BlockState neighborState = serverLevel.getBlockState(neighborPos);
+            if (neighborState.getBlock() instanceof LeavesBlock) {
+                // Ignore leaves blocks
+                continue;
+            } else if (neighborState.getBlock() instanceof BranchBlock) {
+                // Connected to another log block, do not decay
+                return;
+            }
+        }
 
+        // If not connected to any logs, initiate decay process
+        if (this.decaying(blockState)) {
+            dropResources(blockState, serverLevel, blockPos);
+            serverLevel.removeBlock(blockPos, false);
+        }    }
+
+*/
 
     public VoxelShape getBlockSupportShape(BlockState p_54456_, BlockGetter p_54457_, BlockPos p_54458_) {
         return Shapes.empty();
@@ -61,10 +86,13 @@ public class BranchBlock extends Block {
             for (Direction direction : Direction.values()) {
                 BlockPos neighborPos = blockPos.offset(direction.getNormal());
                 BlockState neighborState = serverLevel.getBlockState(neighborPos);
+
                 if (neighborState.getBlock() instanceof LeavesBlock) {
                     return;
-                } else if (neighborState.getBlock() instanceof BranchBlock) {
-                    return;
+                }
+            else if (blockState.getBlock() instanceof BranchBlock) {
+                return;
+
 
                 }
             }
