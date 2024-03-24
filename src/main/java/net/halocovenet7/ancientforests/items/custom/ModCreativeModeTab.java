@@ -22,6 +22,7 @@ public class ModCreativeModeTab {
                         pOutput.accept(ModBlocks.OAK_BRANCH.get());
                         pOutput.accept(ModBlocks.SPOTTED_GRASS.get());
                         pOutput.accept(ModBlocks.LEAF_LITTER.get());
+                        pOutput.accept(ModBlocks.NEW_OAK_SAPLING.get());
 
                     })
                     .build());

@@ -42,33 +42,20 @@ public class BranchBlock extends Block {
         this.registerDefaultState(this.stateDefinition.any().setValue(DISTANCE, Integer.valueOf(7)).setValue(PERSISTENT, Boolean.valueOf(false)).setValue(WATERLOGGED, Boolean.valueOf(false)));
     }
 
-  /*  @Override
-    public void scheduledTick(BlockState state, ServerLevel serverLevel, BlockPos pos, Random random) {
-        // Check if the block is at the world's edge, if so, return
-        if (serverLevel.isClientSide || pos.getY() >= serverLevel.getHeight() - 1) {
-            return;
-        }
+    @Override
+    public boolean isFlammable(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+        return true;
+    }
 
-        // Check neighboring blocks
-        for (Direction direction : Direction.values()) {
-            BlockPos neighborPos = pos.offset(direction.getNormal());
-            BlockState neighborState = serverLevel.getBlockState(neighborPos);
-            if (neighborState.getBlock() instanceof LeavesBlock) {
-                // Ignore leaves blocks
-                continue;
-            } else if (neighborState.getBlock() instanceof BranchBlock) {
-                // Connected to another log block, do not decay
-                return;
-            }
-        }
+    @Override
+    public int getFlammability(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+        return 5;
+    }
 
-        // If not connected to any logs, initiate decay process
-        if (this.decaying(blockState)) {
-            dropResources(blockState, serverLevel, blockPos);
-            serverLevel.removeBlock(blockPos, false);
-        }    }
-
-*/
+    @Override
+    public int getFireSpreadSpeed(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+        return 5;
+    }
 
     public VoxelShape getBlockSupportShape(BlockState p_54456_, BlockGetter p_54457_, BlockPos p_54458_) {
         return Shapes.empty();
@@ -77,33 +64,13 @@ public class BranchBlock extends Block {
     public boolean isRandomlyTicking(BlockState p_54449_) {
         return p_54449_.getValue(DISTANCE) == 7 && !p_54449_.getValue(PERSISTENT);
     }
-        @Override
-        public void randomTick(BlockState blockState, ServerLevel serverLevel, BlockPos blockPos, RandomSource randomSource) {
-            if (this.decaying(blockState)) {
-                dropResources(blockState, serverLevel, blockPos);
-                serverLevel.removeBlock(blockPos, false);
-            }
-            for (Direction direction : Direction.values()) {
-                BlockPos neighborPos = blockPos.offset(direction.getNormal());
-                BlockState neighborState = serverLevel.getBlockState(neighborPos);
-
-                if (neighborState.getBlock() instanceof LeavesBlock) {
-                    return;
-                }
-            else if (blockState.getBlock() instanceof BranchBlock) {
-                return;
-
-
-                }
-            }
-/*    @Override
     public void randomTick(BlockState p_221379_, ServerLevel p_221380_, BlockPos p_221381_, RandomSource p_221382_) {
         if (this.decaying(p_221379_)) {
             dropResources(p_221379_, p_221380_, p_221381_);
             p_221380_.removeBlock(p_221381_, false);
         }
 
-*/    }
+    }
 
     protected boolean decaying(BlockState p_221386_) {
         return !p_221386_.getValue(PERSISTENT) && p_221386_.getValue(DISTANCE) == 7;
@@ -130,32 +97,34 @@ public class BranchBlock extends Block {
         return p_54440_;
     }
 
-    private static BlockState updateDistance(BlockState p_54436_, LevelAccessor p_54437_, BlockPos p_54438_) {
+    private static BlockState updateDistance(BlockState blockState, LevelAccessor levelAccessor, BlockPos blockPos) {
         int i = 7;
         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
 
         for(Direction direction : Direction.values()) {
-            blockpos$mutableblockpos.setWithOffset(p_54438_, direction);
-            i = Math.min(i, getDistanceAt(p_54437_.getBlockState(blockpos$mutableblockpos)) + 1);
+            blockpos$mutableblockpos.setWithOffset(blockPos, direction);
+            i = Math.min(i, getDistanceAt(levelAccessor.getBlockState(blockpos$mutableblockpos)) + 1);
             if (i == 1) {
                 break;
             }
         }
 
-        return p_54436_.setValue(DISTANCE, Integer.valueOf(i));
+        return blockState.setValue(DISTANCE, Integer.valueOf(i));
     }
 
-    private static int getDistanceAt(BlockState p_54464_) {
-        return getOptionalDistanceAt(p_54464_).orElse(7);
+    private static int getDistanceAt(BlockState blockState) {
+        return getOptionalDistanceAt(blockState).orElse(7);
     }
 
-    public static OptionalInt getOptionalDistanceAt(BlockState p_277868_) {
-        if (p_277868_.is(BlockTags.OAK_LOGS)) {
-            return OptionalInt.of(1);
+    public static OptionalInt getOptionalDistanceAt(BlockState blockState) {
+        if (blockState.is(ModTags.Blocks.IS_BRANCH)) {
+            return OptionalInt.of(0);
         } else
-
+        if (blockState.is(BlockTags.LEAVES)) {
+            return OptionalInt.empty();
+        } else
         {
-            return p_277868_.hasProperty(DISTANCE) ? OptionalInt.of(p_277868_.getValue(DISTANCE)) : OptionalInt.empty();
+            return blockState.hasProperty(DISTANCE) ? OptionalInt.of(blockState.getValue(DISTANCE)) : OptionalInt.empty();
         }
     }
 

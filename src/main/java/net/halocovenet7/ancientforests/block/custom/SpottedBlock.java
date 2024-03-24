@@ -42,7 +42,7 @@ public class SpottedBlock extends Block {
         return !p_152926_.canSurvive(p_152929_, p_152930_) ? Blocks.AIR.defaultBlockState() : super.updateShape(p_152926_, p_152927_, p_152928_, p_152929_, p_152930_, p_152931_);
     }
     protected boolean mayPlaceOn(BlockState p_200014_1_, BlockGetter p_200014_2_, BlockPos p_200014_3_) {
-        return p_200014_1_.is(BlockTags.LOGS);
+        return p_200014_1_.is(BlockTags.SAND);
     }
     @Override
     public boolean canSurvive(BlockState p_196260_1_, LevelReader p_196260_2_, BlockPos p_196260_3_)

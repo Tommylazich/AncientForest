@@ -3,6 +3,7 @@ package net.halocovenet7.ancientforests.block;
 import net.halocovenet7.ancientforests.AncientForests;
 import net.halocovenet7.ancientforests.block.custom.BranchBlock;
 import net.halocovenet7.ancientforests.items.ModItems;
+import net.halocovenet7.ancientforests.worldgen.tree.BetterTreeGrower;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.item.BlockItem;
@@ -34,6 +35,9 @@ public class ModBlocks {
     public static final RegistryObject<Block> SPOTTED_GRASS = registerBlock("spotted_grass",
             () -> new PinkPetalsBlock(BlockBehaviour.Properties.copy(Blocks.PINK_PETALS).sound(SoundType.GRASS).noCollission().pushReaction(PushReaction.DESTROY)));
 
+    public static final RegistryObject<Block> NEW_OAK_SAPLING = registerBlock("new_oak_sapling",
+            () -> new SaplingBlock(new BetterTreeGrower(), BlockBehaviour.Properties.copy(Blocks.OAK_SAPLING)));
+
 
     @OnlyIn(Dist.CLIENT)
     public static void setRenderTypes() {
@@ -44,6 +48,7 @@ public class ModBlocks {
         ItemBlockRenderTypes.setRenderLayer(LEAF_LITTER.get(), cutoutRenderType);
         ItemBlockRenderTypes.setRenderLayer(OAK_BRANCH.get(), cutoutRenderType);
         ItemBlockRenderTypes.setRenderLayer(SPOTTED_GRASS.get(), cutoutRenderType);
+        ItemBlockRenderTypes.setRenderLayer(NEW_OAK_SAPLING.get(), cutoutRenderType);
 
     }
 
