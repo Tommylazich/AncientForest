@@ -1,4 +1,4 @@
-package net.halocovenet7.ancientforests.Util;
+package net.halocovenet7.ancientforests.util;
 
 import net.halocovenet7.ancientforests.AncientForests;
 import net.minecraft.resources.ResourceLocation;

@@ -12,7 +12,6 @@ import net.minecraftforge.fml.common.Mod;
 import java.util.concurrent.CompletableFuture;
 
 @Mod.EventBusSubscriber(modid = AncientForests.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
-
 public class DataGenerators {
     @SubscribeEvent
     public static void gatherData(GatherDataEvent event) {
@@ -31,7 +30,9 @@ public class DataGenerators {
                 new ModBlockTagGenerator(packOutput, lookupProvider, existingFileHelper));
         generator.addProvider(event.includeServer(), new ModItemTagGenerator(packOutput, lookupProvider, blockTagGenerator.contentsGetter(), existingFileHelper));
 
-        generator.addProvider(event.includeServer(), new ModWorldGenProvider(packOutput, lookupProvider));
+        generator.addProvider(event.includeServer(), new ModGlobalLootModifiersProvider(packOutput));
+        generator.addProvider(event.includeServer(), new ModPoiTypeTagsProvider(packOutput, lookupProvider, existingFileHelper));
 
+        generator.addProvider(event.includeServer(), new ModWorldGenProvider(packOutput, lookupProvider));
     }
 }

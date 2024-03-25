@@ -5,7 +5,6 @@ import net.halocovenet7.ancientforests.items.ModItems;
 import net.halocovenet7.ancientforests.items.custom.ModCreativeModeTab;
 import com.mojang.logging.LogUtils;
 import net.halocovenet7.ancientforests.worldgen.ModConfiguredFeatures;
-import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;

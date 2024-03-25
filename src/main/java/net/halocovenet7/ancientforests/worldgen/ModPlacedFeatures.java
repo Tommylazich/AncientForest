@@ -18,13 +18,18 @@ import net.minecraft.world.level.levelgen.placement.PlacementModifier;
 
 import java.util.List;
 public class ModPlacedFeatures {
-    public static final ResourceKey<PlacedFeature> NEW_OAK_PLACED_KEY = registerKey("new_oak_placed_key");
+    public static final ResourceKey<PlacedFeature> SAPPHIRE_ORE_PLACED_KEY = registerKey("sapphire_ore_placed");
+    public static final ResourceKey<PlacedFeature> NETHER_SAPPHIRE_ORE_PLACED_KEY = registerKey("nether_sapphire_ore_placed");
+    public static final ResourceKey<PlacedFeature> END_SAPPHIRE_ORE_PLACED_KEY = registerKey("end_sapphire_ore_placed");
 
+    public static final ResourceKey<PlacedFeature> NEW_OAK_PLACED = registerKey("new_oak_placed");
 
     public static void bootstrap(BootstapContext<PlacedFeature> context) {
         HolderGetter<ConfiguredFeature<?, ?>> configuredFeatures = context.lookup(Registries.CONFIGURED_FEATURE);
 
-        register(context, NEW_OAK_PLACED_KEY, configuredFeatures.getOrThrow(ModConfiguredFeatures.NEW_OAK_KEY),
+
+
+        register(context, NEW_OAK_PLACED, configuredFeatures.getOrThrow(ModConfiguredFeatures.NEW_OAK_KEY),
                 VegetationPlacements.treePlacement(PlacementUtils.countExtra(3, 0.1f, 2),
                         ModBlocks.NEW_OAK_SAPLING.get()));
     }

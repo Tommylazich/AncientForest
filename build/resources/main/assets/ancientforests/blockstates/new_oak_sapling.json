@@ -1,7 +1,7 @@
 {
   "variants": {
     "": {
-      "model": "ancientforests:block/new_oak_sapling"
+      "model": "minecraft:block/oak_sapling"
     }
   }
 }

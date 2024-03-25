@@ -1,6 +1,6 @@
 package net.halocovenet7.ancientforests.datagen;
 
-import net.halocovenet7.ancientforests.datagen.Loot.ModBlockLootTables;
+import net.halocovenet7.ancientforests.datagen.loot.ModBlockLootTables;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
@@ -12,7 +12,6 @@ public class ModLootTableProvider {
     public static LootTableProvider create(PackOutput output) {
         return new LootTableProvider(output, Set.of(), List.of(
                 new LootTableProvider.SubProviderEntry(ModBlockLootTables::new, LootContextParamSets.BLOCK)
-
         ));
     }
 }
